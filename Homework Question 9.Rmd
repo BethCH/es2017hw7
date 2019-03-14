@@ -1,0 +1,11 @@
+---
+title: "HW Question #9"
+author: "Carlisha Hall"
+date: "March 12, 2019"
+output: github_document
+---
+
+###HW Question #9. How many site names in the CA air quality location dataset "Site Name" contain "San" or "Santa?
+```{r}
+str_subset(loc$'Site Name', "(San|Santa)")
+```
