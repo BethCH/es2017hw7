@@ -1,0 +1,36 @@
+---
+title: "Homework Code Script"
+author: "Carlisha Hall"
+date: "March 12, 2019"
+output: github_document
+---
+
+
+```{r}
+#read in ozone data 
+suppressMessages(library(readr, warn.conflicts = FALSE, quietly=TRUE))
+suppressMessages(library(tidyverse, warn.conflicts = FALSE, quietly=TRUE))
+o3.filenames <- list.files("C://Users//Carlisha Hall//Desktop//Homework-6-//Homework Data//ca_ozone", pattern = ".txt")
+suppressMessages(o3.filelist <- lapply(o3.filenames, read_delim, delim = "|"))
+names(o3.filelist) <- gsub(".txt","", o3.filenames)
+o3.filelist
+
+```
+
+```{r}
+#Summarize ozone data 
+suppressMessages(library(data.table, warn.conflicts = FALSE, quietly=TRUE))
+daily <- o3.filelist %>%
+  rbindlist() %>%
+  group_by(site = as.factor(site), date) %>%
+  summarize(o3 = mean(obs, na.rm = TRUE))
+daily
+```
+
+```{r}
+#read in location excel file
+suppressMessages(library(tidyverse, warn.conflicts = FALSE, quietly=TRUE)) 
+suppressMessages(library(readxl, warn.conflicts = FALSE, quietly=TRUE)) 
+loc <- read_excel("C://Users//Carlisha Hall//Desktop//Homework-6-//Homework Data//ca_ozone//location.xls")
+loc
+```
