@@ -1,0 +1,52 @@
+---
+title: "HW Question #15"
+author: "Carlisha Hall"
+date: "March 12, 2019"
+output: github_document
+---
+
+###HW Question #15. Write a function to caculate the annual daily mean (what is the annual mean of the daily mean?). Apply that function to Merced County. What is the annual daily mean of o3 for Merced County? Report your results in quantititive format (i.e., prose, or a table), and in visual format (i.e., a graph).
+
+```{r}
+library(stringr)
+library(lubridate)
+colnames(loc)[1] <- "site"
+daily.site <- daily %>%
+  left_join(loc, by = "site")
+
+#Create object with variable of interest
+daily.site2<-select(daily.site, site, date, o3, 'County Name') 
+
+#Filter varibales of interest 
+Daily2.Filter<-daily.site2 %>% 
+  filter(str_detect(`County Name`, "(^Merced$)"))
+
+
+#components for function
+Daily2.Filter<-daily.site2 %>% 
+filter(str_detect(`County Name`, "(^Merced$)"))
+  
+dailySum <- group_by(Daily2.Filter,  # data_frame object
+day = day(date), year(date)) %>% summarize(mean(o3, na.rm=TRUE)) 
+
+
+
+Merced.Daily<-function(x) {
+  
+  Daily2.Filter<-(x) %>% 
+filter(str_detect(`County Name`, "(^Merced$)"))
+
+  dailySum <- group_by(Daily2.Filter,  # data_frame object
+day = day(date), year(date)) %>% summarize(mean(o3, na.rm=TRUE)) 
+}
+view(Merced.Daily(daily.site2))
+
+mydata<-Merced.Daily(daily.site2)
+
+
+library(ggplot2)
+ggplot(data = mydata, aes((x = mydata$`year(date)`), (y = mydata$`mean(o3, na.rm = TRUE)`))) + geom_line(color = "#00AFBB", size = 1)
+
+
+```
+
