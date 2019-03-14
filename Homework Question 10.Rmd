@@ -1,0 +1,13 @@
+---
+title: "HW Question #10"
+author: "Carlisha Hall"
+date: "March 12, 2019"
+output: github_document
+---
+
+###HW Question #10. Identify the number of sites that do not have a complete address (full street address and zip code).
+```{r}
+loc2<- select(loc, Address, `Zip Code`) 
+str_subset(loc2$Address, "^[ABCDEFGHIJKLMNOQRSTUVWXYZP]") 
+str_subset(loc2$`Zip Code`, "(^..$)|(^.$)|(^...$)|(^....$)")
+```
